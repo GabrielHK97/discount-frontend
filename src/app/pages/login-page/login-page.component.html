@@ -1,20 +1,63 @@
-<div class="w-screen h-screen bg-base-100 flex flex-row justify-center items-center">
-    <div class="w-1/5 h-full flex flex-col justify-center items-center">
-        <div class="text-xl text-white mb-5">Login</div>
-        <form [formGroup]="loginForm" class="flex flex-col gap-3 justify-center items-center w-full p-4 max-w-56" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="outline">
-                <mat-label>Outline form field</mat-label>
-                <input matInput placeholder="Placeholder">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-              </mat-form-field>
-            <input id="username" type="text" class="input input-sm bg-white text-base-100 w-full" placeholder="username" formControlName="username"/>
-            <input id="password" type="password" class="input input-sm bg-white text-base-100 w-full" placeholder="password" formControlName="password"/>
-            <input id="token" type="text" class="input input-sm bg-white text-base-100 w-full" placeholder="token" formControlName="token"/>
-            <button type="submit" [disabled]="!loginForm.valid" class="btn btn-sm btn-primary text-base-100">Login</button>
-        </form>
-    </div>
-    <div class="w-4/5 h-full bg-white flex flex-col justify-center items-center">
-        <img src="assets/images/discount.svg" alt="My Icon">
-    </div>
+<!-- <div *ngIf="isHandsetPortrait$ | async">Handset in portrait mode</div>
+<div *ngIf="isHandsetLandscape$ | async">Handset in landscape mode</div>
+<div *ngIf="isTabletPortrait$ | async">Tablet in portrait mode</div>
+<div *ngIf="isTabletLandscape$ | async">Tablet in landscape mode</div>
+<div *ngIf="isWebPortrait$ | async">Web in portrait mode</div>
+<div *ngIf="isWebLandscape$ | async">Web in landscape mode</div> -->
+
+<div
+  class="w-screen h-screen flex flex-row justify-center items-center"
+>
+  <div class="w-1/5 h-full flex flex-col justify-center items-center bg-slate-800">
+    <div class="text-xl text-white mb-5">Login</div>
+    <form
+      [formGroup]="loginForm"
+      class="flex flex-col gap-3 justify-center items-center w-full p-4 max-w-56"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field appearance="outline" class="w-56">
+        <mat-label>Username</mat-label>
+        <input matInput id="username" type="text" formControlName="username" />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-56">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="switchPasswordVisibility()"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          class="p-3"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-56">
+        <mat-label>Token</mat-label>
+        <input
+          matInput
+          id="token"
+          type="text"
+          formControlName="token"
+          mask="000 000"
+        />
+        <mat-icon matSuffix>key</mat-icon>
+      </mat-form-field>
+      <button type="submit" [disabled]="!loginForm.valid" mat-flat-button>
+        Login
+      </button>
+    </form>
   </div>
+  <div
+    class="w-4/5 h-full bg-white flex flex-col justify-center items-center p-10"
+  >
+    <img src="assets/images/panel.svg" alt="My Icon" class="w-full h-full" />
+  </div>
+</div>

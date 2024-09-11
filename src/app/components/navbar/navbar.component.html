@@ -1,0 +1,55 @@
+<div
+  class="w-full h-full flex flex-col justify-center items-center gap-2"
+>
+  <div
+    class="flex-grow flex flex-col justify-start items-center gap-2 w-full p-4"
+  >
+    <button
+      type="button"
+      mat-flat-button
+      class="w-full"
+      (click)="redirect('/profile')"
+    >
+      <mat-icon>person</mat-icon>
+      Perfil
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      class="w-full"
+      (click)="redirect('/dashboard')"
+    >
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      class="w-full"
+      (click)="redirect('/companies')"
+    >
+      <mat-icon>apartment</mat-icon>
+      Empresas
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      class="w-full"
+      (click)="redirect('/stores')"
+    >
+      <mat-icon>store</mat-icon>
+      Lojas
+    </button>
+  </div>
+  <div class="w-full p-4">
+    <button
+      type="button"
+      mat-flat-button
+      class="w-full flex items-center justify-start"
+      (click)="logout()"
+    >
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </div>
+</div>

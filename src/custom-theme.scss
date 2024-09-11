@@ -32,6 +32,6 @@ $light-theme: mat.define-theme((
 
   // Apply the light theme when the user prefers light themes
   @media (prefers-color-scheme: light) {
-    @include mat.all-component-themes($light-theme); // Use only the color mixins for the light theme
+    @include mat.all-component-colors($light-theme); // Use only the color mixins for the light theme
   }
 }
