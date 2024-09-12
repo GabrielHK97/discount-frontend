@@ -1,37 +1,48 @@
-@use '@angular/material' as mat;
+// @use '@angular/material' as mat;
 
-@include mat.core(); // Include Material core styles
+// @include mat.core();
 
-// Define a dark theme
-$dark-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-    primary: mat.$orange-palette,
-    tertiary: mat.$cyan-palette,
-  ),
-  density: (
-    scale: 0, // Control density
-  )
-));
+// $dark-theme: mat.define-theme((
+//   color: (
+//     theme-type: dark,
+//     primary: mat.$orange-palette,
+//     tertiary: mat.$cyan-palette,
+//   ),
+//   density: (
+//     scale: 0,
+//   )
+// ));
 
-// Define a light theme
-$light-theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$orange-palette,
-    tertiary: mat.$cyan-palette,
-  ),
-  density: (
-    scale: 0,
-  )
-));
+// $light-theme: mat.define-theme((
+//   color: (
+//     theme-type: light,
+//     primary: mat.$orange-palette,
+//     tertiary: mat.$cyan-palette,
+//   ),
+//   density: (
+//     scale: 0,
+//   )
+// ));
 
-:root {
-  // Apply the dark theme by default
-  @include mat.all-component-themes($dark-theme);
+// :root {
+//   @include mat.all-component-themes($dark-theme);
+//   @media (prefers-color-scheme: light) {
+//     @include mat.all-component-colors($light-theme);
+//   }
+// }
 
-  // Apply the light theme when the user prefers light themes
-  @media (prefers-color-scheme: light) {
-    @include mat.all-component-colors($light-theme); // Use only the color mixins for the light theme
-  }
+.bg-success {
+  background-color: #22c55e !important;
+}
+
+.bg-info {
+  background-color: #22d3ee !important;
+}
+
+.bg-error {
+  background-color: #ff4d75 !important;
+}
+
+.bg-warning {
+  background-color: #fb923c !important;
 }

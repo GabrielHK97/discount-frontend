@@ -12,11 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { BreakpointsService } from '../../services/breakpoints.service';
+// import { BreakpointsService } from '../../services/breakpoints.service';
 // import { Observable } from 'rxjs';
 // import { CommonModule } from '@angular/common';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { IQRCode } from '../../interfaces/qrcode.interface';
+import { IStatus } from '../../interfaces/status.interface';
 
 @Component({
   selector: 'app-login-page',
@@ -37,7 +39,8 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
-  hide: boolean = true;
+  hidePassword: boolean = true;
+  twofa: boolean = false;
 
   // isHandsetPortrait$: Observable<boolean>;
   // isHandsetLandscape$: Observable<boolean>;
@@ -49,13 +52,13 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    private router: Router,
-    // private breakpointsService: BreakpointsService
-  ) {
+    private router: Router
+  ) // private breakpointsService: BreakpointsService
+  {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-      token: new FormControl('', [Validators.min(0), Validators.max(9999)]),
+      twofa: new FormControl(''),
     });
     // this.isHandsetPortrait$ = this.breakpointsService.isHandsetPortrait$;
     // this.isHandsetLandscape$ = this.breakpointsService.isHandsetLandscape$;
@@ -65,7 +68,6 @@ export class LoginPageComponent implements OnInit {
     // this.isWebLandscape$ = this.breakpointsService.isWebLandscape$;
   }
 
-
   async ngOnInit() {
     const isAuthenticated = await this.authService.authenticate();
     if (isAuthenticated) {
@@ -74,7 +76,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   switchPasswordVisibility() {
-    this.hide = !this.hide;
+    this.hidePassword = !this.hidePassword;
   }
 
   async onSubmit(): Promise<void> {
@@ -82,13 +84,19 @@ export class LoginPageComponent implements OnInit {
       const loginDto: ILogin = {
         username: this.loginForm.value.username,
         password: this.loginForm.value.password,
-        token: this.loginForm.value.token,
+        twofa: this.loginForm.value.twofa,
       };
-      await this.authService.login(loginDto);
-      this.router.navigate(['/dashboard']);
+      const response = await this.authService.login(loginDto);
+      if ((response.data as IStatus).status) {
+        this.twofa = true;
+        this.loginForm.get('twofa')?.setValidators([Validators.required]);
+        this.loginForm.get('twofa')?.updateValueAndValidity();
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
     } catch (error: any) {
-      const snackBarRef = this.snackBar.open(error.error.message, 'Fechar',{
-        duration: 2000
+      const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
+        duration: 2000,
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
