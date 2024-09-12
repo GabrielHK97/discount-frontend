@@ -16,7 +16,7 @@ export class AuthService {
   async authenticate(): Promise<boolean> {
     try {
       await firstValueFrom(
-        this.http.get(`${environment.apiUrl}/auth`, { withCredentials: true })
+        this.http.get(`${environment.apiUrl}/admin/authenticate`, { withCredentials: true })
       );
       return true;
     } catch (error) {
@@ -27,7 +27,7 @@ export class AuthService {
   async login(loginDto: ILogin): Promise<IMetadata<IToken | IStatus>> {
     return await firstValueFrom(
       this.http.post<IMetadata<IToken | IStatus>>(
-        `${environment.apiUrl}/auth/login`,
+        `${environment.apiUrl}/admin/login`,
         loginDto,
         { withCredentials: true }
       )
@@ -36,7 +36,7 @@ export class AuthService {
 
   async logout(): Promise<IMetadata<IToken>> {
     return await firstValueFrom(
-      this.http.get<IMetadata<IToken>>(`${environment.apiUrl}/auth/logout`, {
+      this.http.get<IMetadata<IToken>>(`${environment.apiUrl}/admin/logout`, {
         withCredentials: true,
       })
     );
@@ -44,7 +44,7 @@ export class AuthService {
 
   async enableQRCode(): Promise<IMetadata> {
     return await firstValueFrom(
-      this.http.get<IMetadata>(`${environment.apiUrl}/auth/qrcode/enable`, {
+      this.http.get<IMetadata>(`${environment.apiUrl}/admin/qrcode/enable`, {
         withCredentials: true,
       })
     );
@@ -52,7 +52,7 @@ export class AuthService {
 
   async disableQRCode(twofa: ITwoFA): Promise<IMetadata> {
     return await firstValueFrom(
-      this.http.post<IMetadata>(`${environment.apiUrl}/auth/qrcode/disable`, twofa, {
+      this.http.post<IMetadata>(`${environment.apiUrl}/admin/qrcode/disable`, twofa, {
         withCredentials: true,
       })
     );
@@ -60,7 +60,7 @@ export class AuthService {
 
   async statusQRCode(): Promise<IMetadata<IStatus>> {
     return await firstValueFrom(
-      this.http.get<IMetadata<IStatus>>(`${environment.apiUrl}/auth/qrcode/status`, {
+      this.http.get<IMetadata<IStatus>>(`${environment.apiUrl}/admin/qrcode/status`, {
         withCredentials: true,
       })
     );
@@ -68,7 +68,7 @@ export class AuthService {
 
   async generateQRCode(): Promise<IMetadata<IQRCode>> {
     return await firstValueFrom(
-      this.http.get<IMetadata<IQRCode>>(`${environment.apiUrl}/auth/qrcode`, {
+      this.http.get<IMetadata<IQRCode>>(`${environment.apiUrl}/admin/qrcode`, {
         withCredentials: true,
       })
     );
