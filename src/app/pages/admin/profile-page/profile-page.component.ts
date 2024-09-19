@@ -9,7 +9,7 @@ import { DisableTwofaDialogComponent } from './dialogs/disable-twofa-dialog/disa
 import { ITwoFA } from '../../../interfaces/twofa.interface';
 
 @Component({
-  selector: 'app-profile-page',
+  selector: 'app-admin-profile-page',
   standalone: true,
   imports: [NavbarComponent, MatCardModule, MatButtonModule],
   templateUrl: './profile-page.component.html',
@@ -27,7 +27,6 @@ export class AdminProfilePageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.checkStatusQRCode();
-    console.log(this.statusQRCode);
   }
 
   async checkStatusQRCode(): Promise<void> {

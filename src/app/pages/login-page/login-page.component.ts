@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 // import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login-page',
+  selector: 'app-admin-login-page',
   standalone: true,
   imports: [
     // CommonModule

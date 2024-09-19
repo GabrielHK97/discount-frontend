@@ -4,7 +4,7 @@ import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard-page',
+  selector: 'app-admin-dashboard-page',
   standalone: true,
   imports: [NavbarComponent],
   templateUrl: './dashboard-page.component.html',
