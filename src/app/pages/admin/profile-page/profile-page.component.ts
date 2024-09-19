@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { AdminService } from '../../../services/admin.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
 import { DisableTwofaDialogComponent } from './dialogs/disable-twofa-dialog/disable-twofa-dialog.component';
-import { ITwoFA } from '../../interfaces/twofa.interface';
+import { ITwoFA } from '../../../interfaces/twofa.interface';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,12 +15,12 @@ import { ITwoFA } from '../../interfaces/twofa.interface';
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css',
 })
-export class ProfilePageComponent implements OnInit {
+export class AdminProfilePageComponent implements OnInit {
   statusQRCode: boolean | undefined;
   qrCode: string = '';
 
   constructor(
-    private authService: AuthService,
+    private adminService: AdminService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -32,7 +32,7 @@ export class ProfilePageComponent implements OnInit {
 
   async checkStatusQRCode(): Promise<void> {
     try {
-      const response = await this.authService.statusQRCode();
+      const response = await this.adminService.statusQRCode();
       this.statusQRCode = response.data!.status;
       if (this.statusQRCode) await this.generateQRCode();
     } catch (error) {}
@@ -40,7 +40,7 @@ export class ProfilePageComponent implements OnInit {
 
   async generateQRCode(): Promise<void> {
     try {
-      const response = await this.authService.generateQRCode();
+      const response = await this.adminService.generateQRCode();
       this.qrCode = response.data!.qrCode;
     } catch (error: any) {
       this.qrCode = '';
@@ -55,7 +55,7 @@ export class ProfilePageComponent implements OnInit {
 
   async enableQRCode(): Promise<void> {
     try {
-      await this.authService.enableQRCode();
+      await this.adminService.enableQRCode();
       await this.checkStatusQRCode();
       const snackBarRef = this.snackBar.open('QRCode ativado!', 'Fechar', {
         duration: 2000,
@@ -79,7 +79,7 @@ export class ProfilePageComponent implements OnInit {
       dialogRef.afterClosed().subscribe(async (twofa) => {
         if (twofa) {
           const twofaDto: ITwoFA = { twofa };
-          await this.authService.disableQRCode(twofaDto);
+          await this.adminService.disableQRCode(twofaDto);
           await this.checkStatusQRCode();
           const snackBarRef = this.snackBar.open(
             'QRCode desativado!',

@@ -1,0 +1,45 @@
+<div class="w-screen h-screen flex flex-row justify-center items-center">
+    <div
+      class="w-1/6 h-full flex flex-col justify-center items-center bg-slate-800"
+    >
+      <app-navbar class="w-full h-full"></app-navbar>
+    </div>
+    <div
+      class="w-5/6 h-full bg-white flex flex-col justify-start items-center p-10"
+    >
+      <mat-card appearance="outlined" class="bg-white w-full">
+        <mat-card-header>
+          <mat-card-title> 2FA </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>Ativar ou desativar 2FA via QRCode </div>
+          @if(statusQRCode) {
+              <div>status: Ativo</div>
+              <img [src]="qrCode" alt="QRCode">
+          }
+          @else {
+              <div>status: Inativo</div>
+          }
+        </mat-card-content>
+        <mat-card-actions class="gap-2">
+          <button
+            mat-flat-button
+            class="bg-success"
+            (click)="enableQRCode()"
+            [disabled]="statusQRCode"
+          >
+            Ativar
+          </button>
+          <button
+            mat-flat-button
+            class="bg-error"
+            (click)="disableQRCode()"
+            [disabled]="!statusQRCode"
+          >
+            Desativar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  

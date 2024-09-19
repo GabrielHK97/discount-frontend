@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AdminService } from '../../services/admin.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -12,11 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private adminService: AdminService, private router: Router) {}
 
   async logout(): Promise<void> {
-    await this.authService.logout();
-    this.router.navigate(['/login']);
+    await this.adminService.logout();
+    this.router.navigate(['/admin']);
   }
 
   redirect(path: string): void {

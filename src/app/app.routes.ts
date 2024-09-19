@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
-import { AppComponent } from './app.component';
-import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { AdminLoginPageComponent } from './pages/admin/login-page/login-page.component';
+import { AdminProfilePageComponent } from './pages/admin/profile-page/profile-page.component';
+import { AdminGuard } from './guards/admin.guard';
+import { AdminDashboardPageComponent } from './pages/admin/dashboard-page/dashboard-page.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginPageComponent },
   {
-    path: 'dashboard',
-    component: DashboardPageComponent,
-    canActivate: [AuthGuard],
+    path: 'admin',
+    component: AdminLoginPageComponent,
   },
-  {
-    path: 'profile',
-    component: ProfilePageComponent,
-    canActivate: [AuthGuard],
+  {path: 'admin/profile',
+    component: AdminProfilePageComponent,
+    canActivate: [AdminGuard]
   },
+  {path: 'admin/dashboard',
+    component: AdminDashboardPageComponent,
+    canActivate: [AdminGuard]
+  }
 ];

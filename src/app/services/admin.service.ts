@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ILogin } from '../interfaces/login.interface';
 import { environment } from '../../environments/environment';
 import { IMetadata } from '../interfaces/metadata.interface';
@@ -10,7 +10,7 @@ import { ITwoFA } from '../interfaces/twofa.interface';
 import { IStatus } from '../interfaces/status.interface';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AdminService {
   constructor(private http: HttpClient) {}
 
   async authenticate(): Promise<boolean> {
