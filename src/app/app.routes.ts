@@ -4,6 +4,7 @@ import { AdminProfilePageComponent } from './pages/admin/profile-page/profile-pa
 import { AdminGuard } from './guards/admin.guard';
 import { AdminDashboardPageComponent } from './pages/admin/dashboard-page/dashboard-page.component';
 import { StoreLoginPageComponent } from './pages/store/login-page/login-page.component';
+import { StoreCreatePageComponent } from './pages/store/create-page/create-page.component';
 
 export const routes: Routes = [
   {
@@ -21,5 +22,9 @@ export const routes: Routes = [
   {
     path: 'store',
     component: StoreLoginPageComponent
+  },
+  {
+    path: 'store/create',
+    component: StoreCreatePageComponent
   }
 ];

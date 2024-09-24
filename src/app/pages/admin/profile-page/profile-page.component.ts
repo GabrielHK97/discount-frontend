@@ -6,7 +6,7 @@ import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { DisableTwofaDialogComponent } from './dialogs/disable-twofa-dialog/disable-twofa-dialog.component';
-import { ITwoFA } from '../../../interfaces/twofa.interface';
+import { ITwoFA } from '../../../utils/interfaces/twofa.interface';
 
 @Component({
   selector: 'app-admin-profile-page',
@@ -45,6 +45,8 @@ export class AdminProfilePageComponent implements OnInit {
       this.qrCode = '';
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
@@ -58,6 +60,8 @@ export class AdminProfilePageComponent implements OnInit {
       await this.checkStatusQRCode();
       const snackBarRef = this.snackBar.open('QRCode ativado!', 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
@@ -65,6 +69,8 @@ export class AdminProfilePageComponent implements OnInit {
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
@@ -85,6 +91,8 @@ export class AdminProfilePageComponent implements OnInit {
             'Fechar',
             {
               duration: 2000,
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
             }
           );
           snackBarRef.onAction().subscribe(() => {
@@ -95,6 +103,8 @@ export class AdminProfilePageComponent implements OnInit {
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();

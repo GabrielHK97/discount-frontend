@@ -1,16 +1,21 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from "ngx-mask";
-import { ILogin } from "../../../interfaces/login.interface";
-import { IStatus } from "../../../interfaces/status.interface";
-import { StoreService } from "../../../services/store.service";
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { StoreService } from '../../../services/store.service';
+import { ILogin } from '../../../utils/interfaces/login.interface';
+import { IStatus } from '../../../utils/interfaces/status.interface';
 
 @Component({
   selector: 'app-store-login-page',
@@ -27,7 +32,7 @@ import { StoreService } from "../../../services/store.service";
   ],
   providers: [provideNgxMask()],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  styleUrl: './login-page.component.css',
 })
 export class StoreLoginPageComponent {
   loginForm: FormGroup;
@@ -43,7 +48,6 @@ export class StoreLoginPageComponent {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-  
     });
     this.twofaForm = new FormGroup({
       twofa: new FormControl('', Validators.required),
@@ -76,6 +80,8 @@ export class StoreLoginPageComponent {
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
@@ -88,17 +94,24 @@ export class StoreLoginPageComponent {
       const twofaDto: ILogin = {
         username: this.loginForm.value.username,
         password: this.loginForm.value.password,
-        twofa: this.twofaForm.value.twofa
+        twofa: this.twofaForm.value.twofa,
       };
       await this.storeService.login(twofaDto);
       this.router.navigate(['/admin/dashboard']);
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
       });
     }
+  }
+
+  redirectToCreate(): void {
+    console.log('teste');
+    this.router.navigate(['store/create']);
   }
 }

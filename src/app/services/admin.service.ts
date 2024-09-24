@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { ILogin } from '../interfaces/login.interface';
 import { environment } from '../../environments/environment';
-import { IMetadata } from '../interfaces/metadata.interface';
-import { IToken } from '../interfaces/token.interface';
-import { IQRCode } from '../interfaces/qrcode.interface';
-import { ITwoFA } from '../interfaces/twofa.interface';
-import { IStatus } from '../interfaces/status.interface';
+import { ILogin } from '../utils/interfaces/login.interface';
+import { IToken } from '../utils/interfaces/token.interface';
+import { IStatus } from '../utils/interfaces/status.interface';
+import { IMetadata } from '../utils/interfaces/metadata.interface';
+import { ITwoFA } from '../utils/interfaces/twofa.interface';
+import { IQRCode } from '../utils/interfaces/qrcode.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {

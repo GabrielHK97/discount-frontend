@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,8 +14,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AdminService } from '../../../services/admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ILogin } from '../../../interfaces/login.interface';
-import { IStatus } from '../../../interfaces/status.interface';
+import { ILogin } from '../../../utils/interfaces/login.interface';
+import { IStatus } from '../../../utils/interfaces/status.interface';
 
 @Component({
   selector: 'app-admin-login-page',
@@ -27,7 +32,7 @@ import { IStatus } from '../../../interfaces/status.interface';
   ],
   providers: [provideNgxMask()],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  styleUrl: './login-page.component.css',
 })
 export class AdminLoginPageComponent {
   loginForm: FormGroup;
@@ -43,7 +48,6 @@ export class AdminLoginPageComponent {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-  
     });
     this.twofaForm = new FormGroup({
       twofa: new FormControl('', Validators.required),
@@ -76,6 +80,8 @@ export class AdminLoginPageComponent {
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
@@ -88,13 +94,15 @@ export class AdminLoginPageComponent {
       const twofaDto: ILogin = {
         username: this.loginForm.value.username,
         password: this.loginForm.value.password,
-        twofa: this.twofaForm.value.twofa
+        twofa: this.twofaForm.value.twofa,
       };
       await this.adminService.login(twofaDto);
       this.router.navigate(['/admin/dashboard']);
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
       });
       snackBarRef.onAction().subscribe(() => {
         this.snackBar.dismiss();
