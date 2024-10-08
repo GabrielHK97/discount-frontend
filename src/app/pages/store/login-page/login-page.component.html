@@ -10,7 +10,7 @@
     <form
       [formGroup]="twofaForm"
       class="flex flex-col justify-center items-center w-full p-4"
-      (ngSubmit)="onSubmitTwofa()"
+      (ngSubmit)="loginTwoFa()"
     >
       <mat-form-field appearance="outline" class="w-56">
         <mat-label>Token</mat-label>
@@ -27,22 +27,22 @@
           Voltar
         </button>
         <button type="submit" [disabled]="!twofaForm.valid" mat-flat-button>
-          Login
+          Logar
         </button>
       </div>
     </form>
     } @else {
     <form
       [formGroup]="loginForm"
-      class="flex flex-col gap-3 justify-center items-center w-full p-4"
-      (ngSubmit)="onSubmitLogin()"
+      class="flex flex-col justify-center items-center w-full p-4"
+      (ngSubmit)="login()"
     >
       <mat-form-field appearance="outline" class="w-56">
-        <mat-label>Username</mat-label>
+        <mat-label>Usuário</mat-label>
         <input matInput id="username" type="text" formControlName="username" />
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-56">
-        <mat-label>Password</mat-label>
+        <mat-label>Senha</mat-label>
         <input
           matInput
           [type]="hidePassword ? 'password' : 'text'"
@@ -53,15 +53,14 @@
           mat-icon-button
           matSuffix
           (click)="switchPasswordVisibility()"
-          class="p-4"
         >
           <mat-icon>{{
             hidePassword ? "visibility_off" : "visibility"
           }}</mat-icon>
         </button>
       </mat-form-field>
-      <button type="submit" [disabled]="!loginForm.valid" mat-flat-button>
-        Login
+      <button type="submit" mat-flat-button [disabled]="!loginForm.valid">
+        Logar
       </button>
     </form>
     }

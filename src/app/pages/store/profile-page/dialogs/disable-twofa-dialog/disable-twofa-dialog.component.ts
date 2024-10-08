@@ -20,7 +20,7 @@ interface IData {
 }
 
 @Component({
-  selector: 'app-admin-disable-twofa-dialog',
+  selector: 'app-store-disable-twofa-dialog',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -36,10 +36,10 @@ interface IData {
   templateUrl: './disable-twofa-dialog.component.html',
   styleUrl: './disable-twofa-dialog.component.css',
 })
-export class AdminDisableTwofaDialogComponent {
+export class StoreDisableTwofaDialogComponent {
   twofaForm: FormGroup;
 
-  constructor(private dialogRef: MatDialogRef<AdminDisableTwofaDialogComponent>) {
+  constructor(private dialogRef: MatDialogRef<StoreDisableTwofaDialogComponent>) {
     this.twofaForm = new FormGroup({
       twofa: new FormControl('', Validators.required),
     });

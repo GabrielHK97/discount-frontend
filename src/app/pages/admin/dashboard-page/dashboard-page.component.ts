@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { AdminNavbarComponent } from '../../../components/navbar-admin/navbar-admin.component';
 import { AdminService } from '../../../services/admin.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard-page',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [AdminNavbarComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })

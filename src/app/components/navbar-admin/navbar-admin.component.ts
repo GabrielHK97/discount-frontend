@@ -5,13 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-admin-navbar',
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  templateUrl: './navbar-admin.component.html',
+  styleUrl: './navbar-admin.component.css',
 })
-export class NavbarComponent {
+export class AdminNavbarComponent {
   constructor(private adminService: AdminService, private router: Router) {}
 
   async logout(): Promise<void> {

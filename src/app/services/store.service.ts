@@ -2,13 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { IRegister } from "../utils/interfaces/register.interface";
 import { IMetadata } from "../utils/interfaces/metadata.interface";
 import { IToken } from "../utils/interfaces/token.interface";
 import { IStatus } from "../utils/interfaces/status.interface";
 import { ILogin } from "../utils/interfaces/login.interface";
 import { ITwoFA } from "../utils/interfaces/twofa.interface";
 import { IQRCode } from "../utils/interfaces/qrcode.interface";
+import { IStore } from "../utils/interfaces/store.interface";
 
 @Injectable({ providedIn: 'root' })
 export class StoreService {
@@ -25,10 +25,10 @@ export class StoreService {
     }
   }
 
-  async register(registerDto: IRegister): Promise<IMetadata> {
+  async register(registerDto: IStore): Promise<IMetadata> {
     return await firstValueFrom(
       this.http.post<IMetadata>(
-        `${environment.apiUrl}/store/login`,
+        `${environment.apiUrl}/store/register`,
         registerDto,
         { withCredentials: true }
       )

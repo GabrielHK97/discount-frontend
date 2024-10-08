@@ -57,7 +57,7 @@ export class StoreLoginPageComponent {
   async ngOnInit() {
     const isAuthenticated = await this.storeService.authenticate();
     if (isAuthenticated) {
-      this.router.navigate(['/admin/dashboard']);
+      this.router.navigate(['/store/dashboard']);
     }
   }
 
@@ -65,7 +65,7 @@ export class StoreLoginPageComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-  async onSubmitLogin(): Promise<void> {
+  async login(): Promise<void> {
     try {
       const loginDto: ILogin = {
         username: this.loginForm.value.username,
@@ -75,7 +75,7 @@ export class StoreLoginPageComponent {
       if ((response.data as IStatus).status) {
         this.twofa = true;
       } else {
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/store/dashboard']);
       }
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
@@ -89,7 +89,7 @@ export class StoreLoginPageComponent {
     }
   }
 
-  async onSubmitTwofa(): Promise<void> {
+  async loginTwoFa(): Promise<void> {
     try {
       const twofaDto: ILogin = {
         username: this.loginForm.value.username,
@@ -97,7 +97,7 @@ export class StoreLoginPageComponent {
         twofa: this.twofaForm.value.twofa,
       };
       await this.storeService.login(twofaDto);
-      this.router.navigate(['/admin/dashboard']);
+      this.router.navigate(['/store/dashboard']);
     } catch (error: any) {
       const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
         duration: 2000,
@@ -111,7 +111,6 @@ export class StoreLoginPageComponent {
   }
 
   redirectToCreate(): void {
-    console.log('teste');
     this.router.navigate(['store/create']);
   }
 }
