@@ -42,7 +42,7 @@ import { Router } from '@angular/router';
     NgxMaskPipe,
     MatAutocompleteModule,
     AsyncPipe,
-    CommonModule
+    CommonModule,
   ],
   providers: [provideNgxMask()],
   templateUrl: './create-store-page.component.html',
@@ -107,7 +107,6 @@ export class StoreCreatePageComponent implements OnInit {
   switchConfirmPasswordVisibility() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
-
 
   async ngOnInit(): Promise<void> {
     this.states = await this.locationService.getStates(
@@ -205,11 +204,15 @@ export class StoreCreatePageComponent implements OnInit {
         };
         await this.storeService.register(createStoreDto);
         this.created = true;
-        const snackBarRef = this.snackBar.open('Loja criada com sucesso!', 'Fechar', {
-          duration: 2000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
+        const snackBarRef = this.snackBar.open(
+          'Loja criada com sucesso!',
+          'Fechar',
+          {
+            duration: 2000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+          }
+        );
         snackBarRef.onAction().subscribe(() => {
           this.snackBar.dismiss();
         });
@@ -223,6 +226,15 @@ export class StoreCreatePageComponent implements OnInit {
           this.snackBar.dismiss();
         });
       }
+    } else {
+      const snackBarRef = this.snackBar.open('Dados incorretos!', 'Fechar', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+      snackBarRef.onAction().subscribe(() => {
+        this.snackBar.dismiss();
+      });
     }
   }
 

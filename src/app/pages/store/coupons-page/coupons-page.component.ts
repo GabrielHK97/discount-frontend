@@ -24,12 +24,15 @@ import { ICoupon } from '../../../utils/interfaces/coupon.interface';
   styleUrl: './coupons-page.component.css',
 })
 export class StoreCouponsPageComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  data = new MatTableDataSource<ICoupon>([]);
+  columns: string[] = ['name', 'description', 'period', 'usage', 'amount'];
+  coupons = new MatTableDataSource<ICoupon>([]);
 
   constructor(private couponService: CouponService, private router: Router) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    const response = await this.couponService.list({});
+    this.coupons = new MatTableDataSource<ICoupon>(response.data);
+  }
 
   redirect(path: string): void {
     this.router.navigate([path]);

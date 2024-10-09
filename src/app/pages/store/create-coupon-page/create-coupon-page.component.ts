@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
+  Form,
   FormControl,
   FormGroup,
   FormsModule,
+  NgForm,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -23,6 +25,13 @@ import {
 } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
+import { ICoupon } from '../../../utils/interfaces/coupon.interface';
+import { AmountTypesEnum } from '../../../utils/enums/amount-types.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CouponService } from '../../../services/coupon.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-store-create-coupon-page',
@@ -39,60 +48,146 @@ import { MatSelectModule } from '@angular/material/select';
     MatCheckboxModule,
     MatDatepickerModule,
     MatStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    CommonModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
     provideNativeDateAdapter(),
+    provideNgxMask()
   ],
   templateUrl: './create-coupon-page.component.html',
   styleUrl: './create-coupon-page.component.css',
 })
 export class StoreCreateCouponPageComponent {
-  couponInfoForm: FormGroup;
-  couponDetailsForm: FormGroup;
-  couponAmountForm: FormGroup;
+  createCouponForm: FormGroup;
+  amountTypesEnum = AmountTypesEnum;
+  couponCreated: boolean = false;
 
-  constructor() {
-    this.couponInfoForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      description: new FormControl(''),
-    });
-    this.couponDetailsForm = new FormGroup({
+  @ViewChild('form') form: NgForm | null = null;
+
+  constructor(
+    private couponService: CouponService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {
+    this.createCouponForm = new FormGroup({
+      name: new FormControl(null, Validators.required),
+      description: new FormControl(null),
       hasPeriod: new FormControl(false, Validators.required),
       dateStart: new FormControl({ value: null, disabled: true }),
       dateEnd: new FormControl({ value: null, disabled: true }),
       hasLimit: new FormControl(false, Validators.required),
       limit: new FormControl({ value: null, disabled: true }),
-    });
-    this.couponAmountForm = new FormGroup({
-      hasValue: new FormControl(false, Validators.required),
-      value: new FormControl({ value: null, disabled: true }),
-      hasPercentage: new FormControl(false, Validators.required),
-      percentage: new FormControl({ value: null, disabled: true }),
+      amountType: new FormControl(null, Validators.required),
+      amount: new FormControl({value: null, disabled: true}, Validators.required),
     });
   }
 
-  switchHasPeriod(event: MatCheckboxChange) {
+  switchVisibilityOfDates(event: MatCheckboxChange) {
     if (event.checked) {
-      this.couponDetailsForm.get('dateStart')!.enable();
-      this.couponDetailsForm.get('dateEnd')!.enable();
+      this.createCouponForm.get('dateStart')!.enable();
+      this.createCouponForm.get('dateEnd')!.enable();
     } else {
-      this.couponDetailsForm.get('dateStart')!.setValue(null);
-      this.couponDetailsForm.get('dateEnd')!.setValue(null);
-      this.couponDetailsForm.get('dateStart')!.disable();
-      this.couponDetailsForm.get('dateEnd')!.disable();
+      this.createCouponForm.get('dateStart')!.setValue(null);
+      this.createCouponForm.get('dateEnd')!.setValue(null);
+      this.createCouponForm.get('dateStart')!.disable();
+      this.createCouponForm.get('dateEnd')!.disable();
     }
   }
 
-  switchHasLimit(event: MatCheckboxChange) {
+  switchVisibilityOfLimit(event: MatCheckboxChange) {
     if (event.checked) {
-      this.couponDetailsForm.get('limit')!.enable();
+      this.createCouponForm.get('limit')!.enable();
     } else {
-      this.couponDetailsForm.get('limit')!.setValue(null);
-      this.couponDetailsForm.get('limit')!.disable();
+      this.createCouponForm.get('limit')!.setValue(null);
+      this.createCouponForm.get('limit')!.disable();
     }
   }
 
-  createCoupon() {}
+  resetAmount() {
+    this.createCouponForm.get('amount')!.setValue(null);
+    this.createCouponForm.get('amount')!.enable();
+    if (this.createCouponForm.value.amountType === this.amountTypesEnum.ABSOLUTE) {
+      this.createCouponForm.get('amount')!.setValidators([Validators.required]);
+    }
+    if (this.createCouponForm.value.amountType === this.amountTypesEnum.PERCENTAGE) {
+      this.createCouponForm.get('amount')!.setValidators([Validators.min(1), Validators.max(100)]);
+    }
+  }
+
+  resetCreate() {
+    this.couponCreated = false;
+    this.form!.resetForm();
+    this.createCouponForm.reset({
+      name: null,
+      description: null,
+      hasPeriod: false,
+      dateStart: { value: null, disabled: true },
+      dateEnd: { value: null, disabled: true },
+      hasLimit: false,
+      limit: { value: null, disabled: true },
+      amountType: null,
+      amount: null,
+    });
+  }
+
+  redirectToList() {
+    this.router.navigate(['/store/coupons']);
+  }
+
+  async createCoupon(event: SubmitEvent): Promise<void> {
+    try {
+      const createCouponDto: ICoupon = {
+        name: this.createCouponForm.value.name,
+        description: this.createCouponForm.value.description,
+        hasPeriod: this.createCouponForm.value.hasPeriod,
+        dateStart: this.createCouponForm.value.dateStart,
+        dateEnd: this.createCouponForm.value.dateEnd,
+        hasLimit: this.createCouponForm.value.hasLimit,
+        limit: this.createCouponForm.value.limit,
+        hasPercentage:
+          this.createCouponForm.value.amountType ===
+          this.amountTypesEnum.PERCENTAGE,
+        percentage:
+          this.createCouponForm.value.amountType ===
+          this.amountTypesEnum.PERCENTAGE
+            ? this.createCouponForm.value.amount
+            : null,
+        hasValue:
+          this.createCouponForm.value.amountType ===
+          this.amountTypesEnum.ABSOLUTE,
+        value:
+          this.createCouponForm.value.amountType ===
+          this.amountTypesEnum.ABSOLUTE
+            ? this.createCouponForm.value.amount
+            : null,
+      };
+      await this.couponService.create(createCouponDto);
+      this.couponCreated = true;
+      const snackBarRef = this.snackBar.open(
+        'Cupom criado com sucesso!',
+        'Fechar',
+        {
+          duration: 2000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+        }
+      );
+      snackBarRef.onAction().subscribe(() => {
+        this.snackBar.dismiss();
+      });
+    } catch (error: any) {
+      const snackBarRef = this.snackBar.open(error.error.message, 'Fechar', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+      });
+      snackBarRef.onAction().subscribe(() => {
+        this.snackBar.dismiss();
+      });
+    }
+  }
 }
