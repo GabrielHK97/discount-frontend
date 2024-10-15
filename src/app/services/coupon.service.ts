@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { ICoupon } from '../utils/interfaces/coupon.interface';
 import { IMetadata } from '../utils/interfaces/metadata.interface';
 import { environment } from '../../environments/environment';
+import { ICouponList } from '../utils/interfaces/coupon-list.interface';
+import { IPagination } from '../utils/interfaces/pagination.interface';
 
 @Injectable({ providedIn: 'root' })
 export class CouponService {
   constructor(private http: HttpClient) {}
 
-  async list(listCouponDto: any): Promise<IMetadata<ICoupon[]>> {
+  async list(pagination: IPagination): Promise<IMetadata<ICouponList>> {
     return await firstValueFrom(
-      this.http.post<IMetadata<ICoupon[]>>(
+      this.http.post<IMetadata<ICouponList>>(
         `${environment.apiUrl}/coupon/list`,
-        listCouponDto,
+        pagination,
         { withCredentials: true }
       )
     );

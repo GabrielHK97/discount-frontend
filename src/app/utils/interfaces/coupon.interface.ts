@@ -6,6 +6,8 @@ export interface ICoupon {
     dateEnd: Date;
     hasLimit: boolean;
     limit: number;
+    hasLimitPerUser: boolean;
+    limitPerUser: number;
     hasValue: boolean;
     value: number;
     hasPercentage: boolean;

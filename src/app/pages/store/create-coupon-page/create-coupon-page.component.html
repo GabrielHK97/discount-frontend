@@ -22,19 +22,19 @@
         <mat-card-content>
           @if(!couponCreated) {
           <div class="flex flex-row justify-start items-start w-full p-4 gap-3">
-            <div class="w-1/2 gap-3">
-              <mat-form-field class="w-full">
+            <div class="w-1/2 flex flex-col justify-center items-center gap-3">
+              <mat-form-field class="w-full" appearance="outline">
                 <mat-label>Nome</mat-label>
                 <input matInput id="name" type="text" formControlName="name" />
               </mat-form-field>
-              <mat-form-field class="w-full text-area">
+              <mat-form-field class="w-full text-area" appearance="outline">
                 <mat-label>Descrição</mat-label>
                 <textarea matInput formControlName="description"></textarea>
               </mat-form-field>
             </div>
-            <div class="w-1/2 flex flex-col justify-center items-center gap-3">
+            <div class="w-1/2 flex flex-col justify-start items-start gap-3">
               <div class="flex flex-row justify-start items-start w-full gap-3">
-                <mat-card appearance="outlined" class="w-2/5">
+                <mat-card appearance="outlined" class="w-1/2">
                   <mat-card-content>
                     <mat-checkbox
                       class="example-margin"
@@ -43,7 +43,7 @@
                       >Limite</mat-checkbox
                     >
                     <div class="flex flex-row gap-3 justify-start items-start">
-                      <mat-form-field class="w-full">
+                      <mat-form-field class="w-full" appearance="outline">
                         <mat-label>Quantidade</mat-label>
                         <input
                           matInput
@@ -55,43 +55,23 @@
                     </div>
                   </mat-card-content>
                 </mat-card>
-                <mat-card appearance="outlined" class="w-3/5">
+                <mat-card appearance="outlined" class="w-1/2">
                   <mat-card-content>
                     <mat-checkbox
                       class="example-margin"
-                      formControlName="hasPeriod"
-                      (change)="switchVisibilityOfDates($event)"
-                      >Período de validade</mat-checkbox
+                      formControlName="hasLimitPerUser"
+                      (change)="switchVisibilityOfLimitPerUser($event)"
+                      >Limite por usuário</mat-checkbox
                     >
-                    <div
-                      class="flex flex-row gap-3 justify-center items-center"
-                    >
-                      <mat-form-field class="w-full">
-                        <mat-label>Data inicial</mat-label>
+                    <div class="flex flex-row gap-3 justify-start items-start">
+                      <mat-form-field class="w-full" appearance="outline">
+                        <mat-label>Quantidade</mat-label>
                         <input
                           matInput
-                          [matDatepicker]="startDatePicker"
-                          formControlName="dateStart"
+                          id="name"
+                          type="number"
+                          formControlName="limitPerUser"
                         />
-                        <mat-datepicker-toggle
-                          matIconSuffix
-                          [for]="startDatePicker"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker #startDatePicker></mat-datepicker>
-                      </mat-form-field>
-                      <mat-form-field class="w-full">
-                        <mat-label>Data final</mat-label>
-                        <input
-                          matInput
-                          [matDatepicker]="endDatePicker"
-                          formControlName="dateEnd"
-                          [min]="this.createCouponForm.value.dateStart"
-                        />
-                        <mat-datepicker-toggle
-                          matIconSuffix
-                          [for]="endDatePicker"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker #endDatePicker></mat-datepicker>
                       </mat-form-field>
                     </div>
                   </mat-card-content>
@@ -99,10 +79,50 @@
               </div>
               <mat-card appearance="outlined" class="w-full">
                 <mat-card-content>
+                  <mat-checkbox
+                    class="example-margin"
+                    formControlName="hasPeriod"
+                    (change)="switchVisibilityOfDates($event)"
+                    >Período de validade</mat-checkbox
+                  >
+                  <div class="flex flex-row gap-3 justify-center items-center">
+                    <mat-form-field class="w-full" appearance="outline">
+                      <mat-label>Data inicial</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="startDatePicker"
+                        formControlName="dateStart"
+                        [min]="this.today"
+                      />
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="startDatePicker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #startDatePicker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="w-full" appearance="outline">
+                      <mat-label>Data final</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="endDatePicker"
+                        formControlName="dateEnd"
+                        [min]="this.createCouponForm.value.dateStart"
+                      />
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="endDatePicker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #endDatePicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card appearance="outlined" class="w-full">
+                <mat-card-content>
                   <div
                     class="flex flex-row w-full justify-center items-center gap-3"
                   >
-                    <mat-form-field class="w-1/2">
+                    <mat-form-field class="w-1/2" appearance="outline">
                       <mat-label>Valor em:</mat-label>
                       <mat-select
                         formControlName="amountType"
@@ -116,7 +136,7 @@
                         >
                       </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="w-1/2">
+                    <mat-form-field class="w-1/2" appearance="outline" s>
                       <mat-label>Valor</mat-label>
                       <input
                         matInput
@@ -124,8 +144,18 @@
                         type="text"
                         formControlName="amount"
                         mask="separator.2"
-                        [prefix]="this.createCouponForm.value.amountType === amountTypesEnum.ABSOLUTE ? 'R$ ' : ''"
-                        [suffix]="this.createCouponForm.value.amountType === amountTypesEnum.PERCENTAGE ? '%' : ''"
+                        [prefix]="
+                          this.createCouponForm.value.amountType ===
+                          amountTypesEnum.ABSOLUTE
+                            ? 'R$ '
+                            : ''
+                        "
+                        [suffix]="
+                          this.createCouponForm.value.amountType ===
+                          amountTypesEnum.PERCENTAGE
+                            ? '%'
+                            : ''
+                        "
                         thousandSeparator="."
                         decimalMarker=","
                       />

@@ -64,9 +64,10 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 export class StoreCreateCouponPageComponent {
   createCouponForm: FormGroup;
   amountTypesEnum = AmountTypesEnum;
+  today: Date = new Date();
   couponCreated: boolean = false;
 
-  @ViewChild('form') form: NgForm | null = null;
+  @ViewChild('form') form!: NgForm;
 
   constructor(
     private couponService: CouponService,
@@ -81,6 +82,8 @@ export class StoreCreateCouponPageComponent {
       dateEnd: new FormControl({ value: null, disabled: true }),
       hasLimit: new FormControl(false, Validators.required),
       limit: new FormControl({ value: null, disabled: true }),
+      hasLimitPerUser: new FormControl(false, Validators.required),
+      limitPerUser: new FormControl({ value: null, disabled: true }),
       amountType: new FormControl(null, Validators.required),
       amount: new FormControl({value: null, disabled: true}, Validators.required),
     });
@@ -107,6 +110,15 @@ export class StoreCreateCouponPageComponent {
     }
   }
 
+  switchVisibilityOfLimitPerUser(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.createCouponForm.get('limitPerUser')!.enable();
+    } else {
+      this.createCouponForm.get('limitPerUSer')!.setValue(null);
+      this.createCouponForm.get('limitPerUser')!.disable();
+    }
+  }
+
   resetAmount() {
     this.createCouponForm.get('amount')!.setValue(null);
     this.createCouponForm.get('amount')!.enable();
@@ -129,6 +141,8 @@ export class StoreCreateCouponPageComponent {
       dateEnd: { value: null, disabled: true },
       hasLimit: false,
       limit: { value: null, disabled: true },
+      hasLimitPerUser: false,
+      limitPerUser: { value: null, disabled: true },
       amountType: null,
       amount: null,
     });
@@ -148,6 +162,8 @@ export class StoreCreateCouponPageComponent {
         dateEnd: this.createCouponForm.value.dateEnd,
         hasLimit: this.createCouponForm.value.hasLimit,
         limit: this.createCouponForm.value.limit,
+        hasLimitPerUser: this.createCouponForm.value.hasLimitPerUser,
+        limitPerUser: this.createCouponForm.value.limitPerUser,
         hasPercentage:
           this.createCouponForm.value.amountType ===
           this.amountTypesEnum.PERCENTAGE,
