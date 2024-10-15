@@ -1,7 +1,7 @@
-import { ICoupon } from "./coupon.interface";
+import { ICouponItem } from "./coupon-item.interface";
 
 export interface ICouponList {
-    coupons: ICoupon[];
+    coupons: ICouponItem[];
     totalItems: number;
     page: number;
 }

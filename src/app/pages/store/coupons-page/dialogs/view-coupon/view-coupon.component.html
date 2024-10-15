@@ -1,0 +1,18 @@
+<mat-dialog-content>
+  <div class="w-full h-full flex flex-col justify-center items-start gap-3">
+    <div class="text-xl">{{ coupon.name }}</div>
+    <div>Desconto: {{coupon.amount}}</div>
+    <div>Período: {{coupon.period}}</div>
+    <div>Limite por usuário: {{coupon.limitPerUser}}</div>
+    <div>Uso/Limite: {{coupon.usage}}</div>
+    @if (coupon.description) {
+        <div class="border-2 rounded-xl p-4">{{ coupon.description }}</div> 
+    }
+    <div></div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button type="button" mat-button (click)="close()" color="primary">
+    Fechar
+  </button>
+</mat-dialog-actions>

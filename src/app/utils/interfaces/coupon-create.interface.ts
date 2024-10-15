@@ -1,4 +1,4 @@
-export interface ICoupon {
+export interface ICouponCreate {
     name: string;
     description: string;
     hasPeriod: boolean;

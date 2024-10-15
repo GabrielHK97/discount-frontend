@@ -23,15 +23,14 @@ import {
   MAT_DATE_LOCALE,
   provideNativeDateAdapter,
 } from '@angular/material/core';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
-import { ICoupon } from '../../../utils/interfaces/coupon.interface';
 import { AmountTypesEnum } from '../../../utils/enums/amount-types.enum';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CouponService } from '../../../services/coupon.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ICouponCreate } from '../../../utils/interfaces/coupon-create.interface';
 
 @Component({
   selector: 'app-store-create-coupon-page',
@@ -47,7 +46,6 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     MatInputModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatStepperModule,
     MatSelectModule,
     CommonModule,
     NgxMaskDirective,
@@ -154,7 +152,7 @@ export class StoreCreateCouponPageComponent {
 
   async createCoupon(event: SubmitEvent): Promise<void> {
     try {
-      const createCouponDto: ICoupon = {
+      const createCouponDto: ICouponCreate = {
         name: this.createCouponForm.value.name,
         description: this.createCouponForm.value.description,
         hasPeriod: this.createCouponForm.value.hasPeriod,
